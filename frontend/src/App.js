@@ -99,13 +99,13 @@ function TaskCard({ task, onToggle, onDelete, onEdit }) {
           <input
             type="checkbox"
             checked={task.completed}
-            onChange={() => onToggle(task._id)}
+            onChange={() => onToggle(task.id)}
           />
           <span className="task-title">{task.title}</span>
         </label>
         <div className="task-actions">
           <button className="btn-icon" onClick={() => onEdit(task)} title="Edit">✏️</button>
-          <button className="btn-icon danger" onClick={() => onDelete(task._id)} title="Delete">🗑️</button>
+          <button className="btn-icon danger" onClick={() => onDelete(task.id)} title="Delete">🗑️</button>
         </div>
       </div>
       {task.description && <p className="task-desc">{task.description}</p>}
@@ -157,7 +157,7 @@ function EditModal({ task, onSave, onClose }) {
         </div>
         <div className="modal-actions">
           <button className="btn btn-secondary" onClick={onClose}>Cancel</button>
-          <button className="btn btn-primary" onClick={() => onSave(task._id, form)}>Save Changes</button>
+          <button className="btn btn-primary" onClick={() => onSave(task.id, form)}>Save Changes</button>
         </div>
       </div>
     </div>
@@ -208,7 +208,7 @@ export default function App() {
   const handleToggle = async (id) => {
     try {
       const res = await taskAPI.toggle(id);
-      setTasks((prev) => prev.map((t) => (t._id === id ? res.data : t)));
+      setTasks((prev) => prev.map((t) => (t.id === id ? res.data : t)));
     } catch (err) {
       showStatus(err.message, "error");
     }
@@ -218,7 +218,7 @@ export default function App() {
     if (!window.confirm("Delete this task?")) return;
     try {
       await taskAPI.delete(id);
-      setTasks((prev) => prev.filter((t) => t._id !== id));
+      setTasks((prev) => prev.filter((t) => t.id !== id));
       showStatus("Task deleted.");
     } catch (err) {
       showStatus(err.message, "error");
@@ -228,7 +228,7 @@ export default function App() {
   const handleEdit = async (id, data) => {
     try {
       const res = await taskAPI.update(id, data);
-      setTasks((prev) => prev.map((t) => (t._id === id ? res.data : t)));
+      setTasks((prev) => prev.map((t) => (t.id === id ? res.data : t)));
       setEditingTask(null);
       showStatus("Task updated!");
     } catch (err) {
@@ -266,7 +266,7 @@ export default function App() {
             <span className="logo-icon">⬡</span>
             <div>
               <h1>TaskVault</h1>
-              <p className="subtitle">Three-Tier App · React + Node + MongoDB</p>
+              <p className="subtitle">Three-Tier App · React + Node + PostgreSQL</p>
             </div>
           </div>
           <div className="stats">
@@ -322,7 +322,7 @@ export default function App() {
           ) : (
             filtered.map((task) => (
               <TaskCard
-                key={task._id}
+                key={task.id}
                 task={task}
                 onToggle={handleToggle}
                 onDelete={handleDelete}
