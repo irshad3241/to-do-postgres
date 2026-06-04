@@ -283,8 +283,8 @@ export default function App() {
           <span className="arch-tier tier1">🖥️ React (Port 3000)</span>
           <span className="arch-arrow">→ HTTP/JSON →</span>
           <span className="arch-tier tier2">⚙️ Express (Port 5000)</span>
-          <span className="arch-arrow">→ Mongoose →</span>
-          <span className="arch-tier tier3">🗄️ MongoDB (Port 27017)</span>
+          <span className="arch-arrow">→ pg →</span>
+          <span className="arch-tier tier3">🗄️ PostgreSQL (Port 5432)</span>
         </div>
 
         <TaskForm onAdd={handleAdd} />
@@ -312,7 +312,7 @@ export default function App() {
           {loading ? (
             <div className="empty-state">
               <div className="spinner" />
-              <p>Connecting to MongoDB...</p>
+              <p>Connecting to PostgreSQL...</p>
             </div>
           ) : filtered.length === 0 ? (
             <div className="empty-state">
