@@ -49,7 +49,7 @@ async function init() {
     await client.query(`
       INSERT INTO tasks (title, description, priority, category)
       VALUES ('Deploy this app to AWS!', 'Follow the README step by step', 'high', 'Learning')
-      ON CONFLICT DO NOTHING;
+      ON CONFLICT (id) DO NOTHING;
     `);
     console.log("🌱 Seeded sample task");
   } catch (err) {
